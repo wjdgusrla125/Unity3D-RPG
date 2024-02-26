@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,20 +11,23 @@ public class UIManager : Singleton<UIManager>
     private FSMPlayer _player;
     private PlayerHealth _playerHealth;
     private PlayerMana _playerMana;
-    
+
+    //public Canvas _Canvas;
     public GameObject InvenUI;
-    public GameObject ItemSlotUI;
-    public GameObject Dungeon1UI;
     public Slider playerHPUI;
     public Slider playerMPUI;
+    public GameObject Dungeon1UI;
     public TMP_Text LifeNum;
     
     public Image[] skillIcons;
     public TMP_Text[] cooldownTexts;
     
     public static bool GamePaused = false;
-    bool IsOpenInventory = false;
+    private bool IsOpenInventory = false;
+
+
     
+
     private void Start()
     {
         _player = GameManager.Instance.Player.GetComponent<FSMPlayer>();

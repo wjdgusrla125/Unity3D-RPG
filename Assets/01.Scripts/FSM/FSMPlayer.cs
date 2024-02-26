@@ -52,9 +52,15 @@ public class FSMPlayer : FSMBase
          {
              State.horizontal = Input.GetAxis("Horizontal");
              State.vertical = Input.GetAxis("Vertical");
-    
+             float gravity = -10f;
+             
              Vector3 direction = new Vector3(State.horizontal, 0f, State.vertical).normalized;
-    
+             
+             if (_charactercontroller.isGrounded == false)
+             {
+                 direction.y += gravity * Time.deltaTime * 2;
+             }
+             
              if (direction.magnitude >= 0.1f)
              {
                  direction.Normalize();
@@ -62,10 +68,9 @@ public class FSMPlayer : FSMBase
                  float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
                  transform.rotation = Quaternion.Euler(0f, angle, 0f);
     
-                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-    
-                 //Vector3 targetPosition = transform.position + moveDirection * State.playerSpeed * Time.deltaTime;
-                 _charactercontroller.Move(moveDirection.normalized * State.playerSpeed * Time.deltaTime);
+                 //Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                 
+                 _charactercontroller.Move(direction.normalized * State.playerSpeed * Time.deltaTime);
              }
          }
      }
