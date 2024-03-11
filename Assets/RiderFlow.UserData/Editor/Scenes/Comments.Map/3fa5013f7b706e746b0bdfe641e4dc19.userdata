@@ -1,0 +1,8 @@
+{
+  "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0": {
+    "GameObjectId": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0",
+    "CommentText": "씬 전환 할 때 위치 조정\n골드 제한, 가격 표시\n몬스터 배치 및 인스턴스",
+    "AssetGUID": "3fa5013f7b706e746b0bdfe641e4dc19",
+    "UniqueItemID": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0"
+  }
+}

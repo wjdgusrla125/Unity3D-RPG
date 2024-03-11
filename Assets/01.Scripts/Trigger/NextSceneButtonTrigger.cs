@@ -8,6 +8,7 @@ public class NextSceneButtonTrigger : MonoBehaviour
 
     public void LoadingScene()
     {
+        //PlayerIO.SaveData();
         LoadingSceneManager.LoadingScene(sceneName);
     }
 }

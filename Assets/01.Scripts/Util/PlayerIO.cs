@@ -18,9 +18,11 @@ public sealed class PlayerIO : MonoBehaviour
 
         int HP = (int)_player.Health.HP;
         int MP = (int)_player.Mana.MP;
+        
 
         ElementSetting.SetAttribute("CurrentHP", HP.ToString());
         ElementSetting.SetAttribute("CurrentMP", MP.ToString());
+        ElementSetting.SetAttribute("CurrentGold", _player.Gold.ToString());
 
         XmlEle.AppendChild(ElementSetting);
         
@@ -47,6 +49,7 @@ public sealed class PlayerIO : MonoBehaviour
         {
             _player.Health.HP = System.Convert.ToSingle(itemElement.GetAttribute("CurrentHP"));
             _player.Mana.MP = System.Convert.ToSingle(itemElement.GetAttribute("CurrentMP"));
+            _player.Gold = System.Convert.ToInt32(itemElement.GetAttribute("CurrentGold"));
         }
         
         _playerStats.equipment.Load();

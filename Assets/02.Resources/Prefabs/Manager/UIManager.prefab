@@ -44,12 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42b1a77f7bd0c6c4f9a4844fb4bd6dfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InvenUI: {fileID: 1358595292748697425, guid: 8210e9ad8bd050e4aba0bbd51850db00, type: 3}
-  ItemSlotUI: {fileID: 8426832621839995930, guid: 623fff0fdebd1504eb6569d6a68a3d4e, type: 3}
-  Dungeon1UI: {fileID: 3307698169660465305, guid: 0c3556a00d90f2f4c9e922ccee56451f, type: 3}
+  InvenUI: {fileID: 4327887637283208523, guid: 8210e9ad8bd050e4aba0bbd51850db00, type: 3}
   playerHPUI: {fileID: 5197620166484848222, guid: 6cbf04cdb1d91ec43b0fd27d05f98f50, type: 3}
   playerMPUI: {fileID: 1309629002078381075, guid: 7cffa1fa4c2121d42b878e51255d32c5, type: 3}
+  Dungeon1UI: {fileID: 3307698169660465305, guid: 0c3556a00d90f2f4c9e922ccee56451f, type: 3}
   LifeNum: {fileID: 0}
+  Gold: {fileID: 0}
+  GoldText: {fileID: 0}
   skillIcons:
   - {fileID: 0}
   - {fileID: 0}

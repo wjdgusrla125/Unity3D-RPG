@@ -11,13 +11,14 @@ public class FSMPlayer : FSMBase
     public PlayerMana Mana;
     private PlayerStats Stats;
     public FSMEnemy _enemy;
+    public IntVariable gold;
     
     //스킬
     private Command[] SkillCommands = new Command[4];
     public float[] skillCooldowns = new float[4];
     private bool isSkill;
-    
-    
+
+
     //유니티 메소드
     protected override void Awake()
     {
@@ -60,16 +61,14 @@ public class FSMPlayer : FSMBase
              {
                  direction.y += gravity * Time.deltaTime * 2;
              }
-             
+
              if (direction.magnitude >= 0.1f)
              {
                  direction.Normalize();
                  float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
                  float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
                  transform.rotation = Quaternion.Euler(0f, angle, 0f);
-    
-                 //Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                 
+
                  _charactercontroller.Move(direction.normalized * State.playerSpeed * Time.deltaTime);
              }
          }
@@ -169,41 +168,47 @@ public class FSMPlayer : FSMBase
     
     public void UseItem()
     {
-        if (Stats.ItemSlot.GetSlots[0].GetItemObject().type == ItemType.HpPotion)
+        if (Stats.ItemSlot.GetSlots != null && Stats.ItemSlot.GetSlots.Length > 0 && Stats.ItemSlot.GetSlots[0] != null)
         {
-            if (Input.GetKeyDown(KeyCode.F1))
+            if (Stats.ItemSlot.GetSlots[0].GetItemObject() != null && Stats.ItemSlot.GetSlots[0].GetItemObject().type == ItemType.HpPotion)
             {
-                if (Stats.ItemSlot.GetSlots[0].amount > 1)
+                if (Input.GetKeyDown(KeyCode.F1))
                 {
-                    Stats.ItemSlot.GetSlots[0].AddAmount(-1);
-                    Health.RecoveryHP(50);
-                }
-                else if(Stats.ItemSlot.GetSlots[0].amount == 1)
-                {
-                    Stats.ItemSlot.GetSlots[0].RemoveItem();
-                    Health.RecoveryHP(50);
+                    if (Stats.ItemSlot.GetSlots[0].amount > 1)
+                    {
+                        Stats.ItemSlot.GetSlots[0].AddAmount(-1);
+                        Health.RecoveryHP(50);
+                    }
+                    else if (Stats.ItemSlot.GetSlots[0].amount == 1)
+                    {
+                        Stats.ItemSlot.GetSlots[0].RemoveItem();
+                        Health.RecoveryHP(50);
+                    }
                 }
             }
         }
 
-        if (Stats.ItemSlot.GetSlots[1].GetItemObject().type == ItemType.MpPotion)
+        if (Stats.ItemSlot.GetSlots != null && Stats.ItemSlot.GetSlots.Length > 1 && Stats.ItemSlot.GetSlots[1] != null)
         {
-            if (Input.GetKeyDown(KeyCode.F2))
+            if (Stats.ItemSlot.GetSlots[1].GetItemObject() != null && Stats.ItemSlot.GetSlots[1].GetItemObject().type == ItemType.MpPotion)
             {
-                if (Stats.ItemSlot.GetSlots[1].amount > 1)
+                if (Input.GetKeyDown(KeyCode.F2))
                 {
-                    Stats.ItemSlot.GetSlots[1].AddAmount(-1);
-                    Mana.RecoveryMP(50);
-                }
-                else if(Stats.ItemSlot.GetSlots[1].amount == 1)
-                {
-                    Stats.ItemSlot.GetSlots[1].RemoveItem();
-                    Mana.RecoveryMP(50);
+                    if (Stats.ItemSlot.GetSlots[1].amount > 1)
+                    {
+                        Stats.ItemSlot.GetSlots[1].AddAmount(-1);
+                        Mana.RecoveryMP(50);
+                    }
+                    else if (Stats.ItemSlot.GetSlots[1].amount == 1)
+                    {
+                        Stats.ItemSlot.GetSlots[1].RemoveItem();
+                        Mana.RecoveryMP(50);
+                    }
                 }
             }
         }
     }
-
+    
     public void OnAttack()
     {
         _enemy.TakeDamage();
@@ -215,6 +220,8 @@ public class FSMPlayer : FSMBase
     public bool IsSpinAttack() { return (CH_STATE.SPINATTACK == CHState);}
     public bool IsBlock() { return (CH_STATE.BLOCK == CHState);}
     public bool IsDead() { return (CH_STATE.DEAD == CHState);}
+    
+    public int Gold { get { return gold.Value; } set { gold.SetValue(value); } }
 
     //코루틴
     protected override IEnumerator IDLE()

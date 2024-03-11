@@ -27,10 +27,13 @@ public class PlayerStats : MonoBehaviour
             attributes[i].SetParent(this);
         }
 
-        for (int i = 0; i < equipment.GetSlots.Length; i++)
+        if (equipment != null)
         {
-            equipment.GetSlots[i].onBeforeUpdated += OnRemoveItem;
-            equipment.GetSlots[i].onAfterUpdated += OnAddItem;
+            for (int i = 0; i < equipment.GetSlots.Length; i++)
+            {
+                equipment.GetSlots[i].onBeforeUpdated += OnRemoveItem;
+                equipment.GetSlots[i].onAfterUpdated += OnAddItem;
+            }
         }
     }
 
@@ -44,6 +47,7 @@ public class PlayerStats : MonoBehaviour
             case InterfaceType.Inventory:
                 break;
             case InterfaceType.Equipment:
+                
                 for (int i = 0; i < slot.item.buffs.Length; i++)
                 {
                     for (int j = 0; j < attributes.Length; j++)

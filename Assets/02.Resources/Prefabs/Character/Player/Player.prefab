@@ -703,6 +703,7 @@ MonoBehaviour:
   Health: {fileID: 0}
   Mana: {fileID: 0}
   _enemy: {fileID: 0}
+  gold: {fileID: 11400000, guid: d20fee4846217b34d82d22c6d4b6ce17, type: 2}
   skillCooldowns:
   - 0
   - 0
@@ -723,7 +724,9 @@ MonoBehaviour:
   inventory: {fileID: 11400000, guid: 43f008f0764c6f240b0a8b64c42ff50f, type: 2}
   equipment: {fileID: 11400000, guid: fc60e0f392ed91b45b3d92e6e10cb65f, type: 2}
   ItemSlot: {fileID: 11400000, guid: 8cfe0862be44dd2458189541e5498bf2, type: 2}
-  Colliders: []
+  Colliders:
+  - {fileID: 0}
+  - {fileID: 0}
   weaponTransform: {fileID: 897650972710863024}
   shieldTransform: {fileID: 897650973118618136}
   attributes:

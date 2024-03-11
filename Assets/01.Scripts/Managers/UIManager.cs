@@ -3,30 +3,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
     private FSMPlayer _player;
     private PlayerHealth _playerHealth;
     private PlayerMana _playerMana;
-
-    //public Canvas _Canvas;
+    
     public GameObject InvenUI;
     public Slider playerHPUI;
     public Slider playerMPUI;
     public GameObject Dungeon1UI;
     public TMP_Text LifeNum;
-    
+    public IntVariable Gold;
+    public TMP_Text GoldText;
+
     public Image[] skillIcons;
     public TMP_Text[] cooldownTexts;
     
     public static bool GamePaused = false;
     private bool IsOpenInventory = false;
-
-
-    
 
     private void Start()
     {
@@ -39,6 +37,9 @@ public class UIManager : Singleton<UIManager>
     }
     private void Update()
     {
+        if (GoldText)
+            GoldText.text = Gold.Value + "Gold";
+        
         Cooldown();
         UpdatePlayerUI();
         OpenInventory();

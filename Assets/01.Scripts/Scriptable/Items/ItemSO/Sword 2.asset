@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc8f1ee5755b1c4fb85b47603cf0fea, type: 3}
+  m_Name: Sword 2
+  m_EditorClassIdentifier: 
+  uiDisplay: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
+  characterDisplay: {fileID: 5371139259651813549, guid: 69466f9277e1fb44098920797b8b7faf, type: 3}
+  stackable: 0
+  type: 2
+  description: 
+  data:
+    Name: 
+    Id: 5
+    buffs:
+    - stat: 0
+      value: 0
+      min: 5
+      max: 20
+  boneNames: []
