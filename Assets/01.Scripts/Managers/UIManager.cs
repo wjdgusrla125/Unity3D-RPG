@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
-    private FSMPlayer _player;
+    public FSMPlayer _player;
     private PlayerHealth _playerHealth;
     private PlayerMana _playerMana;
     
@@ -26,14 +26,10 @@ public class UIManager : Singleton<UIManager>
     public static bool GamePaused = false;
     private bool IsOpenInventory = false;
 
-    private void Start()
+    private void Awake()
     {
-        _player = GameManager.Instance.Player.GetComponent<FSMPlayer>();
-        _playerHealth = GameManager.Instance.Player.GetComponent<PlayerHealth>();
-        _playerMana = GameManager.Instance.Player.GetComponent<PlayerMana>();
-        
-        StartCoroutine(InvenUIActive());
-        ResetCooldown();
+        base.Awake();
+        Invoke("Init",0.1f);
     }
     private void Update()
     {
@@ -44,7 +40,17 @@ public class UIManager : Singleton<UIManager>
         UpdatePlayerUI();
         OpenInventory();
     }
-    
+
+
+    private void Init()
+    {
+        _player = GameManager.Instance.Player.GetComponent<FSMPlayer>();
+        _playerHealth = GameManager.Instance.Player.GetComponent<PlayerHealth>();
+        _playerMana = GameManager.Instance.Player.GetComponent<PlayerMana>();
+        
+        StartCoroutine(InvenUIActive());
+        ResetCooldown();
+    }
     public void Pausegame()
     {
         if (GamePaused == false)

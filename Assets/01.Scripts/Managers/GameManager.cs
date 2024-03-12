@@ -13,7 +13,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Awake()
     {
-        Debug.Log("GameManager Awake");
         base.Awake();
         currentScene = SceneManager.GetActiveScene();
         Invoke("Init",0.01f);
@@ -21,7 +20,6 @@ public class GameManager : Singleton<GameManager>
 
     private void Init()
     {
-        Debug.Log("GameManager Init");
         player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         DontDestroyOnLoad(player);
         PlayerIO.LoadData();
