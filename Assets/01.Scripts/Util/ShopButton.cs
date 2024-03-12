@@ -6,7 +6,7 @@ using UnityEngine;
 public class ShopButton : MonoBehaviour
 {
     public IntVariable Gold;
-    private PlayerStats Stats;
+    public PlayerStats Stats;
 
     private void Awake()
     {
@@ -15,7 +15,10 @@ public class ShopButton : MonoBehaviour
 
     public void Buy(ItemObject item)
     {
-        Stats.inventory.AddItem(new Item(item), 1);
-        Gold.ApplyChange(-100);
+        if (Gold.Value > 0)
+        {
+            Stats.inventory.AddItem(new Item(item), 1);
+            Gold.ApplyChange(-100);
+        }
     }
 }

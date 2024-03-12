@@ -1,8 +1,0 @@
-{
-  "GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-2034990416-0": {
-    "GameObjectId": "GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-2034990416-0",
-    "CommentText": "Town씬에서 stage1갈때 게임매니저가 할당 안되는 상황 해결\n캐릭터 선택 창",
-    "AssetGUID": "9fc0d4010bbf28b4594072e72b8655ab",
-    "UniqueItemID": "GlobalObjectId_V1-2-9fc0d4010bbf28b4594072e72b8655ab-2034990416-0"
-  }
-}
