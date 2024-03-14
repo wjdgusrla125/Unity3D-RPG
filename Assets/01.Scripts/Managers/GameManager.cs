@@ -24,9 +24,7 @@ public class GameManager : Singleton<GameManager>
         DontDestroyOnLoad(player);
         PlayerIO.LoadData();
     }
-
     
-
     public  GameObject Player { get { return player; } }
     public Scene Scene { get { return currentScene; } }
 }

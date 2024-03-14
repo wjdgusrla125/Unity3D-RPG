@@ -10,13 +10,14 @@ public class PortalTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            
             LoadingSceneManager.LoadingScene(SceneName);
-            Invoke("SetPlayerPosition",0.1f);
+            //GameManager.Instance.Player.transform.position = Vector3.zero;
         }
     }
     
     private void SetPlayerPosition()
     {
-        GameManager.Instance.Player.transform.position = Vector3.zero;
+        //GameManager.Instance.Player.transform.position = Vector3.zero;
     }
 }
