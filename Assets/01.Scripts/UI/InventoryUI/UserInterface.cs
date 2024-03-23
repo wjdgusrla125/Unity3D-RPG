@@ -50,6 +50,11 @@ public abstract class UserInterface : MonoBehaviour
     {
         EventTrigger trigger = obj.GetComponent<EventTrigger>();
 
+        if (trigger == null)
+        {
+            trigger = obj.AddComponent<EventTrigger>();
+        }
+        
         var eventTrigger = new EventTrigger.Entry();
         eventTrigger.eventID = type;
         eventTrigger.callback.AddListener(action);
@@ -108,8 +113,8 @@ public abstract class UserInterface : MonoBehaviour
         {
             tempItem = new GameObject();
             var rt = tempItem.AddComponent<RectTransform>();
-            rt.sizeDelta = new Vector2(50, 50);
-            tempItem.transform.SetParent(transform.parent);
+            rt.sizeDelta = new Vector2(100, 100);
+            tempItem.transform.SetParent(transform.parent.parent);
             var img = tempItem.AddComponent<Image>();
             img.sprite = slotsOnInterface[obj].GetItemObject().uiDisplay;
             img.raycastTarget = false;

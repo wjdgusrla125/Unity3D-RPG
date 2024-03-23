@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : Singleton<PoolManager>
+public class PoolManager : MonoBehaviour
 {
     public GameObject monster;
     public Queue<GameObject> M_queue = new Queue<GameObject>();
     public Transform[] SpawnPoint;
 
+    
     private void Start()
     {
         for (int i = 0; i < SpawnPoint.Length; i++)

@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class MonsterSpawn : MonoBehaviour
 {
+    public PoolManager _poolManager;
+
+    
     private void Start()
     {
         StartCoroutine(Monstersp());
@@ -16,7 +19,7 @@ public class MonsterSpawn : MonoBehaviour
         {
             yield return null;
 
-            GameObject t_object = PoolManager.Instance.GetQueue();
+            GameObject t_object = _poolManager.GetQueue();
         }
     }
 }

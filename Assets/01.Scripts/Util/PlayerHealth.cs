@@ -34,6 +34,7 @@ public class PlayerHealth : MonoBehaviour
             currentHP = MaxHP;
         }
     }
+    
     private IEnumerator RegenerateHP()
     {
         while (true)

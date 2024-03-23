@@ -20,7 +20,6 @@ public class PositionReset : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("asd");
         if (scene.name == "02.Town")
         {
             GameManager.Instance.Player.transform.position = Vector3.zero;

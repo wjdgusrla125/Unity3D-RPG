@@ -1,7 +1,5 @@
 public enum Attributes
 {
-    Agility,
-    Intellect,
-    Strength,
+    Offence,
     Defence
 }

@@ -8,6 +8,8 @@ public class FSMEnemy : FSMBase
     public EnemyHealth EHealth;
     public GameObject[] itemPrefab;
     
+    private bool isAlive  = false;
+    
     protected GameObject _player;
     protected FSMPlayer _fsmplayer;
     protected PlayerStats _stats;
@@ -52,17 +54,17 @@ public class FSMEnemy : FSMBase
         //스킬별 데미지 작성
         if (_fsmplayer.IsBaseAttack())
         {
-            Damage = _stats.Agility.value.ModifiedValue * 3;
+            Damage = _stats.Offence.value.ModifiedValue * 3;
             EHealth.Takedamage((int)Damage);
         }
         else if (_fsmplayer.IsDoubleAttack())
         {
-            Damage = _stats.Agility.value.ModifiedValue * 7;
+            Damage = _stats.Offence.value.ModifiedValue * 7;
             EHealth.Takedamage((int)Damage);
         }
         else if (_fsmplayer.IsSpinAttack())
         {
-            Damage = _stats.Agility.value.ModifiedValue * 15;
+            Damage = _stats.Offence.value.ModifiedValue * 15;
             EHealth.Takedamage((int)Damage);
         }
         
@@ -120,8 +122,10 @@ public class FSMEnemy : FSMBase
         var itemGo = Instantiate<GameObject>(this.itemPrefab[itemindex]);
         itemGo.transform.position = this.gameObject.transform.position;
         itemGo.SetActive(true);
-        
+
         Destroy(gameObject, 6f);
+        
+        _fsmplayer.gold.ApplyChange(100);
     }
     
     private bool IsMSCombo(){return (CH_STATE.MS_COMBOATTACK == CHState);}
@@ -201,9 +205,13 @@ public class FSMEnemy : FSMBase
 
     protected virtual IEnumerator MS_DEAD()
     {
-        for (int i=0; i<Colliders.Length; ++i) Colliders[i].enabled = false;
-        _charactercontroller.enabled = false;
-        DropItem();
+        if (isAlive == false)
+        {
+            isAlive = true;
+            for (int i=0; i<Colliders.Length; ++i) Colliders[i].enabled = false;
+            _charactercontroller.enabled = false;
+            DropItem();
+        }
         
         yield return null;
     }

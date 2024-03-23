@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +30,7 @@ public class UIManager : Singleton<UIManager>
         base.Awake();
         Invoke("Init",0.1f);
     }
+    
     private void Update()
     {
         if (GoldText)
@@ -38,7 +38,7 @@ public class UIManager : Singleton<UIManager>
         
         Cooldown();
         UpdatePlayerUI();
-        OpenInventory();
+        //OpenInventory();
     }
 
 
@@ -48,7 +48,7 @@ public class UIManager : Singleton<UIManager>
         _playerHealth = GameManager.Instance.Player.GetComponent<PlayerHealth>();
         _playerMana = GameManager.Instance.Player.GetComponent<PlayerMana>();
         
-        StartCoroutine(InvenUIActive());
+        //StartCoroutine(InvenUIActive());
         ResetCooldown();
     }
     public void Pausegame()
@@ -127,28 +127,6 @@ public class UIManager : Singleton<UIManager>
         if (playerMPUI != null)//MP
         {
             playerMPUI.value = _playerMana.currentMP / _playerMana.MaxMP;
-        }
-    }
-    private IEnumerator InvenUIActive()
-    {
-        InvenUI.SetActive(true);
-        yield return new WaitForSeconds(0.001f);
-        InvenUI.SetActive(false);
-    }
-    private void OpenInventory()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (!IsOpenInventory)
-            {
-                IsOpenInventory = true;
-                InvenUI.SetActive(true);
-            }
-            else
-            {
-                IsOpenInventory = false;
-                InvenUI.SetActive(false);
-            }
         }
     }
 }

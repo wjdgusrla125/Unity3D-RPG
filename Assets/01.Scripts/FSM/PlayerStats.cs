@@ -17,7 +17,7 @@ public class PlayerStats : MonoBehaviour
     public Transform shieldTransform;
 
     public Attribute[] attributes;
-    public Attribute Agility => attributes[0];
+    public Attribute Offence => attributes[0];
     public Attribute Defence => attributes[1];
 
     private void Start()
@@ -128,6 +128,6 @@ public class PlayerStats : MonoBehaviour
     
     public void AttributeModified(Attribute attribute)
     {
-        //Debug.Log(string.Concat(attribute.type, " was updated! Value is now ", attribute.value.ModifiedValue));
+        
     }
 }

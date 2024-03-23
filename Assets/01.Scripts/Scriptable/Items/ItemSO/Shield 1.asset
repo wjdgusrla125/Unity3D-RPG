@@ -16,12 +16,11 @@ MonoBehaviour:
   characterDisplay: {fileID: 9021587095981104568, guid: 7c6f33cc58889634a99dfed84a230037, type: 3}
   stackable: 0
   type: 3
-  description: 
   data:
     Name: 
     Id: 3
     buffs:
-    - stat: 3
+    - stat: 1
       value: 0
       min: 1
       max: 10

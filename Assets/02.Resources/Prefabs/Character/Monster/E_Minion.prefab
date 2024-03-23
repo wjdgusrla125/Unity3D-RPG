@@ -790,7 +790,8 @@ MonoBehaviour:
   isNewState: 0
   State: {fileID: 0}
   EHealth: {fileID: 0}
-  itemPrefab: []
+  itemPrefab:
+  - {fileID: 8814548334683627519, guid: ff49eda72d3294540884d2f9f1b199fb, type: 3}
   Colliders:
   - {fileID: 5470815135728443824}
 --- !u!114 &8814823486785331449

@@ -539,6 +539,7 @@ GameObject:
   - component: {fileID: 1719590882006690191}
   - component: {fileID: 1719590882006690188}
   - component: {fileID: 1719590882006690185}
+  - component: {fileID: 4723064957584106308}
   - component: {fileID: 1719590882006690178}
   - component: {fileID: 1719590882006690190}
   - component: {fileID: -5776004921578469542}
@@ -683,6 +684,22 @@ MonoBehaviour:
   value:
     baseValue: 0
     modifiedValue: 0
+--- !u!114 &4723064957584106308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719590882006690200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00bed8db7fc8bc44ab4effa1d4fa5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  value:
+    baseValue: 0
+    modifiedValue: 0
 --- !u!114 &1719590882006690178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,6 +747,7 @@ MonoBehaviour:
   weaponTransform: {fileID: 897650972710863024}
   shieldTransform: {fileID: 897650973118618136}
   attributes:
+  - {fileID: 1719590882006690185}
   - {fileID: 1719590882006690185}
 --- !u!114 &-5776004921578469542
 MonoBehaviour:
