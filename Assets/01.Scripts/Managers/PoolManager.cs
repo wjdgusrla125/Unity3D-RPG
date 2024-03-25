@@ -8,47 +8,50 @@ public class PoolManager : MonoBehaviour
     public GameObject monster;
     public Queue<GameObject> M_queue = new Queue<GameObject>();
     public Transform[] SpawnPoint;
-
     
     private void Start()
     {
+        // 초기에 몬스터를 큐에 추가
         for (int i = 0; i < SpawnPoint.Length; i++)
         {
-            GameObject t_object = Instantiate(monster, this.gameObject.transform);
-            M_queue.Enqueue(t_object);
-            t_object.SetActive(false);
+            GameObject obj = Instantiate(monster, SpawnPoint[i].position, Quaternion.identity, transform);
+            obj.SetActive(false);
+            M_queue.Enqueue(obj);
         }
-        
-        StartCoroutine(MonsterSpawn());
-    }
 
-    public void InsertQueue(GameObject p_object)
-    {
-        M_queue.Enqueue(p_object);
-        p_object.SetActive(false);
+        StartCoroutine(MonsterSpawn());
     }
 
     public GameObject GetQueue()
     {
-        GameObject t_object = M_queue.Dequeue();
-        t_object.SetActive(true);
-
-        return t_object;
+        if (M_queue.Count > 0)
+        {
+            GameObject obj = M_queue.Dequeue();
+            obj.SetActive(true);
+            return obj;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public IEnumerator MonsterSpawn()
     {
         while (true)
         {
-            if (M_queue.Count != 0)
+            for (int i = 0; i < SpawnPoint.Length; i++)
             {
-                for (int i = 0; i < SpawnPoint.Length; i++)
+                GameObject obj = GetQueue();
+
+                if (obj == null)
                 {
-                    GameObject t_object = GetQueue();
-                    t_object.transform.position = SpawnPoint[i].position;
+                    break;
                 }
+
+                obj.transform.position = SpawnPoint[i].position;
             }
-            
+
             yield return new WaitForSeconds(1f);
         }
     }

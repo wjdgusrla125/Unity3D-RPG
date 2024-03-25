@@ -1,8 +1,0 @@
-{
-  "GlobalObjectId_V1-2-9de4e7542e9f0e4468ed0a015780a8a9-2034990416-0": {
-    "GameObjectId": "GlobalObjectId_V1-2-9de4e7542e9f0e4468ed0a015780a8a9-2034990416-0",
-    "CommentText": "인벤토리에서 아이템을 선택해서 옮길 때 사라지는 현상\n골드가 갱신이 안되는 현상\nLifecount 설정\n상점, 던전 입장 UI 설정\n체력바,마나바, 쿨타임 제대로 되는지 확인\n위에 항목은 1번이 되야 가능",
-    "AssetGUID": "9de4e7542e9f0e4468ed0a015780a8a9",
-    "UniqueItemID": "GlobalObjectId_V1-2-9de4e7542e9f0e4468ed0a015780a8a9-2034990416-0"
-  }
-}

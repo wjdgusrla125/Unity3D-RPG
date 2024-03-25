@@ -100,11 +100,6 @@ public class FSMPlayer : FSMBase
                 Destroy(other.gameObject);
             }
         }
-
-        if (other.CompareTag("DungeonEntry"))
-        {
-            UIManager.Instance.Dungeon1UI.SetActive(true);
-        }
     }
     
     private void OnSkillAction()
@@ -212,6 +207,13 @@ public class FSMPlayer : FSMBase
     public void OnAttack()
     {
         _enemy.TakeDamage();
+    }
+
+    private void ResetDeath()
+    {
+        Health.currentHP = Health.MaxHP;
+        Mana.currentMP = Mana.MP;
+        SetState(CH_STATE.IDLE);
     }
     
     
@@ -328,24 +330,16 @@ public class FSMPlayer : FSMBase
 
     protected virtual IEnumerator DEAD()
     {
+        Health.LifeCount--;
+        
         yield return new WaitForSeconds(5f);
-
-        if (Health.LifeCount > 0)
+        
+        ResetDeath();
+        
+        if (Health.LifeCount == 0)
         {
-            Health.LifeCount--;
-            UIManager.Instance.LifeNum.text = Health.LifeCount.ToString();
-            Health.currentHP = Health.MaxHP;
-            Mana.currentMP = Mana.MP;
-            SetState(CH_STATE.IDLE);
-        }
-        else
-        {
-            UIManager.Instance.LifeNum.text = Health.LifeCount.ToString();
-            Health.currentHP = Health.MaxHP;
-            Mana.currentMP = Mana.MP;
+            LoadingSceneManager.LoadingScene("02.Town");
             Health.LifeCount = 3;
-            LoadingSceneManager.LoadingScene("Town");
-            SetState(CH_STATE.IDLE);
         }
     }
 }

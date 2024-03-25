@@ -11,12 +11,7 @@ public class EnterTrigger : MonoBehaviour
         if (Name != null)
         {
             LoadingSceneManager.LoadingScene(Name);
-            Invoke("SetPlayerPosition",0.1f);
+            GameManager.Instance.Player.transform.position = Vector3.zero;
         }
-    }
-    
-    private void SetPlayerPosition()
-    {
-        GameManager.Instance.Player.transform.position = Vector3.zero;
     }
 }
