@@ -5,13 +5,12 @@ using UnityEngine;
 
 public class FSMBase : MonoBehaviour
 {
+    [Header("FSMBase")]
     public CharacterController _charactercontroller;
     public Animator _animator;
-
     public CH_STATE CHState;
-    public bool isNewState;
-
     public CharacterState State;
+    public bool isNewState;
 
     protected virtual void Awake()
     {

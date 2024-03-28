@@ -7,15 +7,15 @@ public class EnemyAnimationEvent : MonoBehaviour
 {
     private Collider[] _colliders;
     private FSMEnemy _enemy;
-    //private FSMPlayer _player;
-
+    
+    //Unity 콜백
     private void Start()
     {
         _enemy = GetComponent<FSMEnemy>();
         _colliders = _enemy.Colliders;
-        //_player = GameManager.Instance.Player.GetComponent<FSMPlayer>();
     }
-
+    
+    //일반 메소드
     private void ColliderEnabled()
     {
         for (int i = 0; i < _colliders.Length; ++i)

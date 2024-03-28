@@ -5,18 +5,24 @@ using UnityEngine.AI;
 
 public class FSMEnemy : FSMBase
 {
+    //Pubilc Field
     public EnemyHealth EHealth;
     public GameObject[] itemPrefab;
+    public Collider[] Colliders;
     
+    //Private Field
     private bool isAlive  = false;
     
+    //Protected Field
     protected GameObject _player;
     protected FSMPlayer _fsmplayer;
     protected PlayerStats _stats;
     protected NavMeshAgent _navmesh;
-
-    public Collider[] Colliders;
-
+    
+    //프로퍼티
+    public bool IsDead() { return (CH_STATE.MS_DEAD == CHState); }
+    
+    //Unity 콜백
     protected override void Awake()
     {
         base.Awake();
@@ -43,8 +49,8 @@ public class FSMEnemy : FSMBase
 
         SetState(CH_STATE.MS_IDLE);
     }
-
-
+    
+    //일반 메소드
     public void TakeDamage()
     {
         if(IsDead()) return;
@@ -127,11 +133,6 @@ public class FSMEnemy : FSMBase
         
         _fsmplayer.gold.ApplyChange(100);
     }
-    
-    private bool IsMSCombo(){return (CH_STATE.MS_COMBOATTACK == CHState);}
-    private bool IsMSSpin(){return (CH_STATE.MS_SPINATTACK == CHState);}
-    private bool IsMSHeavy(){return (CH_STATE.MS_HEAVYATTACK == CHState);}
-    public bool IsDead() { return (CH_STATE.MS_DEAD == CHState); }
 
     //코루틴
     protected virtual IEnumerator MS_IDLE()

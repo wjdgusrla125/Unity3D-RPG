@@ -6,6 +6,7 @@ public class FSMBoss : FSMEnemy
 {
     private bool DoDefence = false;
 
+    //코루틴
     protected override IEnumerator MS_IDLE()
     {
         do
@@ -248,5 +249,4 @@ public class FSMBoss : FSMEnemy
             }
         } while (!isNewState);
     }
-    
 }

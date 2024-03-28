@@ -7,11 +7,13 @@ public class PlayerAnimationEvent : MonoBehaviour
 {
     private PlayerStats _stats;
 
+    //Unity 콜백
     private void Awake()
     {
         _stats = GetComponent<PlayerStats>();
     }
 
+    //일반 메소드
     private void ColliderEnabled()
     {
         _stats.Colliders[0].enabled = true;

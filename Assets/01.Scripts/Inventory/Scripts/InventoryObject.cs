@@ -7,14 +7,18 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 public class InventoryObject : ScriptableObject
 {
+    //Public Field
     public string savePath;
     public ItemDatabaseObject database;
     public InterfaceType type;
 
-    [SerializeField] 
-    private Inventory Container = new Inventory();
     public InventorySlot[] GetSlots => Container.Slots;
-
+    
+    //Private Field
+    [SerializeField] private Inventory Container = new Inventory();
+    
+    
+    //일반 메소드
     public bool AddItem(Item item, int amount)
     {
         if (EmptySlotCount <= 0) return false;

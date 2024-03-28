@@ -1,7 +1,7 @@
 {
   "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0": {
     "GameObjectId": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0",
-    "CommentText": "플레이어 기본 평타 연속공격으로 바꾸기\n로딩 UI 씬 별로 다르게 설정하기\nBGM 설정하기\n이펙트 추가하기",
+    "CommentText": "\nBGM 설정하기\n이펙트 추가하기",
     "AssetGUID": "3fa5013f7b706e746b0bdfe641e4dc19",
     "UniqueItemID": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0"
   }

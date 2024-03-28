@@ -11,6 +11,7 @@ public class LoadingSceneManager : MonoBehaviour
     public static string nextScene;
     public Image ProgressBar;
     public TMP_Text LoadingText;
+    public Image[] BG;
 
     private void Start()
     {
@@ -26,6 +27,19 @@ public class LoadingSceneManager : MonoBehaviour
     private IEnumerator LoadScene()
     {
         yield return null;
+        
+        switch (nextScene)
+        {
+            case "02.Town":
+                BG[0].gameObject.SetActive(true);
+                break;
+            case "03.Stage1":
+                BG[1].gameObject.SetActive(true);
+                break;
+            case "04.Stage2":
+                BG[2].gameObject.SetActive(true);
+                break;
+        }
 
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
@@ -60,6 +74,22 @@ public class LoadingSceneManager : MonoBehaviour
 
             LoadingText.text = ("LOADING : " + Loading.ToString("N1") + "%");
 
+        }
+    }
+
+    private void BGChanger(string sceneName)
+    {
+        switch (sceneName)
+        {
+            case "02.Town":
+                BG[0].gameObject.SetActive(true);
+                break;
+            case "03.Stage1":
+                BG[1].gameObject.SetActive(true);
+                break;
+            case "04.Stage2":
+                BG[2].gameObject.SetActive(true);
+                break;
         }
     }
 }

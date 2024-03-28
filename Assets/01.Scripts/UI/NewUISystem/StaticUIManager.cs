@@ -61,12 +61,12 @@ public class StaticUIManager : Singleton<StaticUIManager> //싱글톤
     //쿨타임 실행
     private void CoolDown()
     {
-        for (int i = 0; i < _player.skillCooldowns.Length; i++)
+        for (int i = 0; i < _player.SkillCooldowns.Length; i++)
         {
-            _player.skillCooldowns[i] -= Time.deltaTime;
+            _player.SkillCooldowns[i] -= Time.deltaTime;
 
-            if (_player.skillCooldowns[i] < 0f)
-                _player.skillCooldowns[i] = 0f;
+            if (_player.SkillCooldowns[i] < 0f)
+                _player.SkillCooldowns[i] = 0f;
             
             UpdateSkillUI(i);
         }
@@ -75,9 +75,9 @@ public class StaticUIManager : Singleton<StaticUIManager> //싱글톤
     //쿨타임 초기화
     private void ResetCoolTime()
     {
-        for (int i = 0; i < _player.skillCooldowns.Length; i++) // 스킬 쿨타임 초기화
+        for (int i = 0; i < _player.SkillCooldowns.Length; i++) // 스킬 쿨타임 초기화
         {
-            _player.skillCooldowns[i] = 0f; // 초기 쿨타임 0으로 설정
+            _player.SkillCooldowns[i] = 0f; // 초기 쿨타임 0으로 설정
             
             UpdateSkillUI(i);
         }
@@ -87,10 +87,10 @@ public class StaticUIManager : Singleton<StaticUIManager> //싱글톤
     private void UpdateSkillUI(int index)
     {
         // 쿨타임이 남은 경우 UI 업데이트
-        if (_player.skillCooldowns[index] > 0f)
+        if (_player.SkillCooldowns[index] > 0f)
         {
-            skillIcons[index].fillAmount = _player.skillCooldowns[index] / GetSkillCooldown(index);
-            cooldownTexts[index].text = Mathf.CeilToInt(_player.skillCooldowns[index]).ToString();
+            skillIcons[index].fillAmount = _player.SkillCooldowns[index] / GetSkillCooldown(index);
+            cooldownTexts[index].text = Mathf.CeilToInt(_player.SkillCooldowns[index]).ToString();
         }
         else
         {

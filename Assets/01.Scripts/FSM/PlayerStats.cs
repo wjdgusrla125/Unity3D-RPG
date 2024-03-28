@@ -5,21 +5,25 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    //Pubilc Field
+    [Header("InventoryObject")]
     public InventoryObject inventory;
     public InventoryObject equipment;
     public InventoryObject ItemSlot;
-
-    private Transform shield;
-    private Transform sword;
+    [Header("Weapon")]
     public Collider[] Colliders;
-
     public Transform weaponTransform;
     public Transform shieldTransform;
-
+    [Header("Attribute")]
     public Attribute[] attributes;
     public Attribute Offence => attributes[0];
     public Attribute Defence => attributes[1];
-
+    
+    //Private Field
+    private Transform shield;
+    private Transform sword;
+    
+    //Unity 콜백
     private void Start()
     {
         for (int i = 0; i < attributes.Length; i++)
@@ -37,6 +41,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    //일반 메소드
     public void OnRemoveItem(InventorySlot slot)
     {
         if (slot.GetItemObject() == null)

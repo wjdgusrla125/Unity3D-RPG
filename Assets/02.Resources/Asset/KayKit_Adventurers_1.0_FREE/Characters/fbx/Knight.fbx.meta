@@ -926,7 +926,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.41797557
+        functionName: PlayerAtkStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: f417ca33c6d2a9f40821fdd3df471153, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.83071554
+        functionName: PlayerAtkEnd
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: f417ca33c6d2a9f40821fdd3df471153, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -1027,7 +1041,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.1711722
+        functionName: PlayerAtkStart
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: f417ca33c6d2a9f40821fdd3df471153, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5497257
+        functionName: PlayerAtkEnd
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: f417ca33c6d2a9f40821fdd3df471153, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

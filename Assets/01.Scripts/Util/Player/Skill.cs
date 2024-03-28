@@ -1,8 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class Skill : MonoBehaviour
 {
@@ -16,6 +13,7 @@ public class Skill : MonoBehaviour
     public void playBaseAttack()
     {
         player.SetState(CH_STATE.BASEATTACK);
+        
     }
 
     public void playDoubleAttack()

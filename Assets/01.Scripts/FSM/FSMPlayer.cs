@@ -7,33 +7,60 @@ using UnityEngine.EventSystems;
 
 public class FSMPlayer : FSMBase
 {
-    public PlayerHealth Health;
-    public PlayerMana Mana;
-    private PlayerStats Stats;
+    //pubilc Field
+    [Header("FSMPlayer")]
     public FSMEnemy _enemy;
     public IntVariable gold;
     
-    //스킬
-    private Command[] SkillCommands = new Command[4];
-    public float[] skillCooldowns = new float[4];
+    //Private Field
+    private PlayerHealth _health;
+    private PlayerMana _mana;
+    private PlayerStats Stats;
+    
+    private Command[] _skillCommands = new Command[4];
+    private float[] _skillCooldowns = new float[4];
     private bool isSkill;
 
+    private int hashAttackCount;
 
-    //유니티 메소드
+    //프로퍼티
+    public PlayerHealth Health => _health;
+    public PlayerMana Mana => _mana;
+    public float[] SkillCooldowns => _skillCooldowns;
+    
+    public bool IsBaseAttack() { return (CH_STATE.BASEATTACK == CHState);}
+    public bool IsDoubleAttack() { return (CH_STATE.DOUBLEATTACK == CHState);}
+    public bool IsSpinAttack() { return (CH_STATE.SPINATTACK == CHState);}
+    public bool IsDead() { return (CH_STATE.DEAD == CHState);}
+    public int Gold { get { return gold.Value; } set { gold.SetValue(value); } }
+
+    public int AttackCount
+    {
+        get => _animator.GetInteger(hashAttackCount);
+        set => _animator.SetInteger(hashAttackCount, value);
+    }
+    
+    
+    //Unity 콜백
     protected override void Awake()
     {
         base.Awake();
-        Health = this.GetComponent<PlayerHealth>();
-        Mana = this.GetComponent<PlayerMana>();
+        
+        _health = this.GetComponent<PlayerHealth>();
+        _mana = this.GetComponent<PlayerMana>();
         Stats = this.GetComponent<PlayerStats>();
+
+        hashAttackCount = Animator.StringToHash("AttackCount");
     }
+    
     private void Start()
     {
         for(int i=0; i<4; i++)
         {
-            SkillCommands[i] = new SkillCommand(i);
+            _skillCommands[i] = new SkillCommand(i);
         }
     }
+    
     private void Update()
     {
         if (IsDead()) return;
@@ -45,6 +72,7 @@ public class FSMPlayer : FSMBase
         }
         UpdateSkillCooldowns();
     }
+    
     
     //일반 메소드
     private void playerMovement()
@@ -108,17 +136,17 @@ public class FSMPlayer : FSMBase
         {
             if (Input.GetMouseButton(0) && CanUseSkill(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                SkillCommands[0].Execute(gameObject);
+                _skillCommands[0].Execute(gameObject);
             }
 
             if (Input.GetKeyDown(KeyCode.E) && CanUseSkill(1))
             {
-                SkillCommands[1].Execute(gameObject);
+                _skillCommands[1].Execute(gameObject);
             }
 
             if (Input.GetKeyDown(KeyCode.Q) && CanUseSkill(2))
             {
-                SkillCommands[2].Execute(gameObject);
+                _skillCommands[2].Execute(gameObject);
             }
         }
 
@@ -126,7 +154,7 @@ public class FSMPlayer : FSMBase
         {
             if (Input.GetKeyDown(KeyCode.LeftShift) && CanUseSkill(3))
             {
-                SkillCommands[3].Execute(gameObject);
+                _skillCommands[3].Execute(gameObject);
             }
         }
     }
@@ -135,18 +163,18 @@ public class FSMPlayer : FSMBase
     {
         for (int i = 0; i < 4; i++)
         {
-            skillCooldowns[i] -= Time.deltaTime;
+            _skillCooldowns[i] -= Time.deltaTime;
             
-            if (skillCooldowns[i] < 0)
+            if (_skillCooldowns[i] < 0)
             {
-                skillCooldowns[i] = 0;
+                _skillCooldowns[i] = 0;
             }
         }
     }
     
     private bool CanUseSkill(int index)
     {
-        return skillCooldowns[index] <= 0;
+        return _skillCooldowns[index] <= 0;
     }
     
     public void TakeDamage(float enemyAttack)
@@ -217,21 +245,14 @@ public class FSMPlayer : FSMBase
     }
     
     
-    public bool IsBaseAttack() { return (CH_STATE.BASEATTACK == CHState);}
-    public bool IsDoubleAttack() { return (CH_STATE.DOUBLEATTACK == CHState);}
-    public bool IsSpinAttack() { return (CH_STATE.SPINATTACK == CHState);}
-    public bool IsBlock() { return (CH_STATE.BLOCK == CHState);}
-    public bool IsDead() { return (CH_STATE.DEAD == CHState);}
     
-    public int Gold { get { return gold.Value; } set { gold.SetValue(value); } }
-
     //코루틴
     protected override IEnumerator IDLE()
     {
         do
         {
+            isSkill = false;
             yield return null;
-            
             if (State.horizontal != 0 || State.vertical != 0)
             {
                 SetState(CH_STATE.RUN);
@@ -257,17 +278,55 @@ public class FSMPlayer : FSMBase
     protected virtual IEnumerator BASEATTACK()
     {
         playerPointMouse();
+        
         do
         {
             isSkill = true;
-            yield return null;
             
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f
-                && _animator.GetCurrentAnimatorStateInfo(0).IsName("BASEATTACK"))
+            yield return null;
+
+            float currentAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            //float currentAnimationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
+
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1")) //Attack1이 실행중 일 때
             {
-                isSkill = false;
+                if (Input.GetMouseButton(0)) //마우스 왼클릭이 들어옴
+                {
+                    //현재 애니메이션이 80%이상 진행된것을 확인
+                    if (currentAnimationTime >= 0.8f)
+                    {
+                        _animator.Play("Attack2");
+                    }
+                }
+                else //마우스 왼클릭이 안 들어옴
+                {
+                    SetState(CH_STATE.IDLE);
+                }
+            }
+
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2"))
+            {
+                if (Input.GetMouseButton(0)) //마우스 왼클릭이 들어옴
+                {
+                    //현재 애니메이션이 80%이상 진행된것을 확인
+                    if (currentAnimationTime >= 0.8f)
+                    {
+                        _animator.Play("Attack3");
+                    }
+                }
+                else //마우스 왼클릭이 안 들어옴
+                {
+                    SetState(CH_STATE.IDLE);
+                }
+            }
+
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3")
+                && currentAnimationTime >= 0.8f)
+            {
                 SetState(CH_STATE.IDLE);
             }
+
+
         } while (!isNewState);
     }
     
@@ -284,7 +343,7 @@ public class FSMPlayer : FSMBase
             {
                 isSkill = false;
                 SetState(CH_STATE.IDLE);
-                skillCooldowns[1] = 10f;
+                _skillCooldowns[1] = 10f;
             }
 
         } while (!isNewState);
@@ -303,7 +362,7 @@ public class FSMPlayer : FSMBase
             {
                 isSkill = false;
                 SetState(CH_STATE.IDLE);
-                skillCooldowns[2] = 15f;
+                _skillCooldowns[2] = 15f;
             }
             
         } while (!isNewState);
@@ -322,7 +381,7 @@ public class FSMPlayer : FSMBase
             {
                 isSkill = false;
                 SetState(CH_STATE.IDLE);
-                skillCooldowns[3] = 8f;
+                _skillCooldowns[3] = 8f;
             }
 
         } while (!isNewState);
