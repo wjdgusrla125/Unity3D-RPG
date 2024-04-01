@@ -37,7 +37,7 @@ public class LoadingSceneManager : MonoBehaviour
                 BG[1].gameObject.SetActive(true);
                 break;
             case "04.Stage2":
-                BG[2].gameObject.SetActive(true);
+                BG[1].gameObject.SetActive(true);
                 break;
         }
 
@@ -59,6 +59,7 @@ public class LoadingSceneManager : MonoBehaviour
                 if (ProgressBar.fillAmount == 1.0f)
                 {
                     op.allowSceneActivation = true;
+                    SoundManager.Instance.PlayBGM(nextScene);
                 }
             }
             else

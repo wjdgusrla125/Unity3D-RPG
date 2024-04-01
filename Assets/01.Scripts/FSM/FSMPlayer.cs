@@ -398,6 +398,7 @@ public class FSMPlayer : FSMBase
         if (Health.LifeCount == 0)
         {
             LoadingSceneManager.LoadingScene("02.Town");
+            transform.position = Vector3.zero;
             Health.LifeCount = 3;
         }
     }
