@@ -1,7 +1,7 @@
 {
   "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0": {
     "GameObjectId": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0",
-    "CommentText": "BGM 설정하기 - 스킬 효과음 설정\n이펙트 추가하기",
+    "CommentText": "- 스킬 이펙트 넣기\n- 미니맵\n- 몬스터 피통 보이게 하기\n- 카메라 벽 뚫지 않게 하기\n",
     "AssetGUID": "3fa5013f7b706e746b0bdfe641e4dc19",
     "UniqueItemID": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0"
   }

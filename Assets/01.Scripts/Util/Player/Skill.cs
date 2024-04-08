@@ -13,7 +13,7 @@ public class Skill : MonoBehaviour
     public void playBaseAttack()
     {
         player.SetState(CH_STATE.BASEATTACK);
-        
+        SoundManager.Instance.PlaySFX("BaseAttack",0.3f);
     }
 
     public void playDoubleAttack()
@@ -22,6 +22,8 @@ public class Skill : MonoBehaviour
         {
             player.Mana.UseMana(30);
             player.SetState(CH_STATE.DOUBLEATTACK);
+            SoundManager.Instance.PlaySFX("DoubleAttack",0.3f);
+            
         }
     }
     
@@ -31,6 +33,7 @@ public class Skill : MonoBehaviour
         {
             player.Mana.UseMana(50);
             player.SetState(CH_STATE.SPINATTACK);
+            SoundManager.Instance.PlaySFX("SpinAttack",0.3f);
         }
     }
 
@@ -40,6 +43,7 @@ public class Skill : MonoBehaviour
         {
             player.Mana.UseMana(20);
             player.SetState(CH_STATE.BLOCK);
+            //SoundManager.Instance.PlaySFX("Block");
         }
     }
 }

@@ -13,6 +13,12 @@ public class MonsterSpawn : MonoBehaviour
         StartCoroutine(Monstersp());
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(this.gameObject.transform.position,0.5f);
+    }
+
     IEnumerator Monstersp()
     {
         while (true)

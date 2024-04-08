@@ -43,7 +43,11 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
         // 단축키 조작
         ToggleKeyDownAction(_inventoryKey, _inventoryPopup);
         ToggleKeyDownAction(_charInfoKey,  _characterInfoPopup);
-        ToggleKeyDownAction(_shopKey,  _shopPopup);
+
+        if (LoadingSceneManager.nextScene == "02.Town")
+        {
+            ToggleKeyDownAction(_shopKey,  _shopPopup);
+        }
     }
     
     //일반 메소드

@@ -16,12 +16,11 @@ public class FSMPlayer : FSMBase
     private PlayerHealth _health;
     private PlayerMana _mana;
     private PlayerStats Stats;
-    
+
     private Command[] _skillCommands = new Command[4];
     private float[] _skillCooldowns = new float[4];
     private bool isSkill;
-
-    private int hashAttackCount;
+    
 
     //프로퍼티
     public PlayerHealth Health => _health;
@@ -33,12 +32,6 @@ public class FSMPlayer : FSMBase
     public bool IsSpinAttack() { return (CH_STATE.SPINATTACK == CHState);}
     public bool IsDead() { return (CH_STATE.DEAD == CHState);}
     public int Gold { get { return gold.Value; } set { gold.SetValue(value); } }
-
-    public int AttackCount
-    {
-        get => _animator.GetInteger(hashAttackCount);
-        set => _animator.SetInteger(hashAttackCount, value);
-    }
     
     
     //Unity 콜백
@@ -49,8 +42,6 @@ public class FSMPlayer : FSMBase
         _health = this.GetComponent<PlayerHealth>();
         _mana = this.GetComponent<PlayerMana>();
         Stats = this.GetComponent<PlayerStats>();
-
-        hashAttackCount = Animator.StringToHash("AttackCount");
     }
     
     private void Start()
@@ -245,7 +236,6 @@ public class FSMPlayer : FSMBase
     }
     
     
-    
     //코루틴
     protected override IEnumerator IDLE()
     {
@@ -286,19 +276,18 @@ public class FSMPlayer : FSMBase
             yield return null;
 
             float currentAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            //float currentAnimationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
-
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1")) //Attack1이 실행중 일 때
+            
+            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1")) 
             {
-                if (Input.GetMouseButton(0)) //마우스 왼클릭이 들어옴
+                if (Input.GetMouseButton(0)) 
                 {
-                    //현재 애니메이션이 80%이상 진행된것을 확인
                     if (currentAnimationTime >= 0.8f)
                     {
                         _animator.Play("Attack2");
+                        SoundManager.Instance.PlaySFX("BaseAttack",0.3f);
                     }
                 }
-                else //마우스 왼클릭이 안 들어옴
+                else
                 {
                     SetState(CH_STATE.IDLE);
                 }
@@ -306,22 +295,22 @@ public class FSMPlayer : FSMBase
 
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2"))
             {
-                if (Input.GetMouseButton(0)) //마우스 왼클릭이 들어옴
+                if (Input.GetMouseButton(0)) 
                 {
-                    //현재 애니메이션이 80%이상 진행된것을 확인
                     if (currentAnimationTime >= 0.8f)
                     {
                         _animator.Play("Attack3");
+                        SoundManager.Instance.PlaySFX("BaseAttack",0.3f);
                     }
                 }
-                else //마우스 왼클릭이 안 들어옴
+                else
                 {
                     SetState(CH_STATE.IDLE);
                 }
             }
 
             if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3")
-                && currentAnimationTime >= 0.8f)
+                && currentAnimationTime >= 0.7f)
             {
                 SetState(CH_STATE.IDLE);
             }

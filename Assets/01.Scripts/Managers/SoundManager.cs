@@ -22,7 +22,7 @@ public class SoundManager : Singleton<SoundManager>
     {
         //BGM 세팅
         BGSource = gameObject.AddComponent<AudioSource>();
-        BGSource.volume = 1;
+        BGSource.volume = 0.5f;
         BGSource.playOnAwake = false;
         BGSource.loop = true;
 
@@ -39,7 +39,7 @@ public class SoundManager : Singleton<SoundManager>
         PlayBGM(BGMClip[0].name);
     }
 
-    public void PlayBGM(string name, bool isLoop = true, float volume = 1.0f)
+    public void PlayBGM(string name, bool isLoop = true, float volume = 0.5f)
     {
         for (int i = 0; i < BGMClip.Count; ++i)
         {
@@ -69,6 +69,9 @@ public class SoundManager : Singleton<SoundManager>
     
     public void PlaySFX(string name, float volume =1.0f, bool isLoop = false)
     {
+        if (IsSoundPlaying(name))
+            return;
+        
         for (int i = 0; i < SFXClip.Count; ++i)
         {
             if (SFXClip[i].name == name)
@@ -78,6 +81,7 @@ public class SoundManager : Singleton<SoundManager>
                 Source.loop = isLoop;
                 Source.volume = volume;
                 Source.Play();
+                StartCoroutine(WaitForSoundEnd(Source));
 
                 return;
             }
@@ -98,6 +102,30 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
     
+    private IEnumerator WaitForSoundEnd(AudioSource source)
+    {
+        float clipLength = source.clip.length;
+        yield return new WaitForSeconds(clipLength * 0.8f);
+
+        // Once 80% of the clip has played, allow the sound to be played again
+        source.Stop();
+    }
+    
+    private bool IsSoundPlaying(string name)
+    {
+        AudioSource[] allSources = FindObjectsOfType<AudioSource>();
+
+        foreach (AudioSource source in allSources)
+        {
+            if (source.clip != null && source.clip.name == name && source.isPlaying)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private AudioSource GetEmptyAudioSource()
     {
         float LargeProgress = 0;
