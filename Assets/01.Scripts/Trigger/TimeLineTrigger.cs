@@ -6,6 +6,8 @@ using UnityEngine.Playables;
 
 public class TimeLineTrigger : MonoBehaviour
 {
+    public GameObject BossHPBar;
+    
     private bool isPlay = false;
     private PlayableDirector director;
 
@@ -20,6 +22,7 @@ public class TimeLineTrigger : MonoBehaviour
         if (director != null && isPlay == false)
         {
             director.Play();
+            BossHPBar.SetActive(true);
             isPlay = true;
         }
     }

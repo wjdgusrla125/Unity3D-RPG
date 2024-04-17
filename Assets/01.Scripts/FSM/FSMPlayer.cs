@@ -66,32 +66,71 @@ public class FSMPlayer : FSMBase
     
     
     //일반 메소드
+    // private void playerMovement()
+    //  {
+    //      if (isSkill == false)
+    //      {
+    //          State.horizontal = Input.GetAxis("Horizontal");
+    //          State.vertical = Input.GetAxis("Vertical");
+    //          float gravity = -10f;
+    //          
+    //          Vector3 direction = new Vector3(State.horizontal, 0f, State.vertical).normalized;
+    //          
+    //          if (_charactercontroller.isGrounded == false)
+    //          {
+    //              direction.y += gravity * Time.deltaTime * 2;
+    //          }
+    //
+    //          if (direction.magnitude >= 0.1f)
+    //          {
+    //              direction.Normalize();
+    //              float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+    //              float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
+    //              transform.rotation = Quaternion.Euler(0f, angle, 0f);
+    //
+    //              _charactercontroller.Move(direction.normalized * State.playerSpeed * Time.deltaTime);
+    //          }
+    //      }
+    //  }
+    
     private void playerMovement()
-     {
-         if (isSkill == false)
-         {
-             State.horizontal = Input.GetAxis("Horizontal");
-             State.vertical = Input.GetAxis("Vertical");
-             float gravity = -10f;
-             
-             Vector3 direction = new Vector3(State.horizontal, 0f, State.vertical).normalized;
-             
-             if (_charactercontroller.isGrounded == false)
-             {
-                 direction.y += gravity * Time.deltaTime * 2;
-             }
+    {
+        if (!isSkill)
+        {
+            State.horizontal = Input.GetAxis("Horizontal");
+            State.vertical = Input.GetAxis("Vertical");
+            float gravity = -10f;
 
-             if (direction.magnitude >= 0.1f)
-             {
-                 direction.Normalize();
-                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
-                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            Vector3 direction = new Vector3(State.horizontal, 0f, State.vertical).normalized;
 
-                 _charactercontroller.Move(direction.normalized * State.playerSpeed * Time.deltaTime);
-             }
-         }
-     }
+            if (_charactercontroller.isGrounded)
+            {
+                State.yVelocity = 0f;
+            }
+            else
+            {
+                if (LoadingSceneManager.isSceneLoaded)
+                {
+                    State.yVelocity += gravity * Time.deltaTime;
+                }
+            }
+            
+            Vector3 move = direction;
+            move.y = State.yVelocity;
+            
+            if (direction.magnitude >= 0.1f)
+            {
+                direction.Normalize();
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            }
+            
+            _charactercontroller.Move(move.normalized * State.playerSpeed * Time.deltaTime);
+        }
+    }
+
+
     
     private void playerPointMouse()
     {

@@ -204,6 +204,7 @@ MonoBehaviour:
   angle: 0
   playerSpeed: 5
   playerRotationSpeed: 600
+  yVelocity: 0
   MS_attackRange: 2
   MS_ChaseRange: 6
   MS_RunSpeed: 3
@@ -227,7 +228,7 @@ MonoBehaviour:
   isNewState: 0
   EHealth: {fileID: 0}
   itemPrefab:
-  - {fileID: 8814548334683627519, guid: ff49eda72d3294540884d2f9f1b199fb, type: 3}
+  - {fileID: 1733589443062681212, guid: 1932d377afc37e445b78c08956d30fa6, type: 3}
   Colliders:
   - {fileID: 2637536253075616783}
 --- !u!114 &1523024936258106694

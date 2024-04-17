@@ -11,7 +11,7 @@ public class FSMEnemy : FSMBase
     public Collider[] Colliders;
     
     //Private Field
-    private bool isAlive  = false;
+    protected bool isAlive  = false;
     
     //Protected Field
     protected GameObject _player;
@@ -126,7 +126,7 @@ public class FSMEnemy : FSMBase
     {
         int itemindex = Random.Range(0, itemPrefab.Length);
         var itemGo = Instantiate<GameObject>(this.itemPrefab[itemindex]);
-        itemGo.transform.position = this.gameObject.transform.position;
+        itemGo.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 1, this.transform.position.z);
         itemGo.SetActive(true);
 
         Destroy(gameObject, 6f);

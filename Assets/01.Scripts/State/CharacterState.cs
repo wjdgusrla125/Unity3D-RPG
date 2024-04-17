@@ -30,6 +30,7 @@ public class CharacterState : MonoBehaviour
     public float angle;
     public float playerSpeed = 5f;
     public float playerRotationSpeed = 600f;
+    public float yVelocity;
 
     //몬스터
     public float MS_attackRange = 2f;

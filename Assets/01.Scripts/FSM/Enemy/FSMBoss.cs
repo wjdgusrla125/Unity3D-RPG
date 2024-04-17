@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FSMBoss : FSMEnemy
 {
+    [Header("FSMBoss")]
+    public GameObject TownPortal;
+    
     private bool DoDefence = false;
 
     //코루틴
@@ -248,5 +251,19 @@ public class FSMBoss : FSMEnemy
                 break;
             }
         } while (!isNewState);
+    }
+    
+    protected virtual IEnumerator MS_DEAD()
+    {
+        if (isAlive == false)
+        {
+            isAlive = true;
+            for (int i=0; i<Colliders.Length; ++i) Colliders[i].enabled = false;
+            _charactercontroller.enabled = false;
+            DropItem();
+            TownPortal.SetActive(true);
+        }
+        
+        yield return null;
     }
 }

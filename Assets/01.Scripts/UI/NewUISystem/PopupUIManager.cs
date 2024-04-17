@@ -26,7 +26,7 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
         
         _activePopupLList = new LinkedList<PopupUI>();
         Init();
-        InitCloseAll();
+        Invoke("InitCloseAll", 0.01f);
     }
 
     private void Update()
@@ -73,6 +73,8 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
             // 닫기 버튼 이벤트
             popup._closeButton.onClick.AddListener(() => ClosePopup(popup));
         }
+        
+        OpenPopup(_inventoryPopup);
     }
     
     //시작 시 모든 팝업 닫기

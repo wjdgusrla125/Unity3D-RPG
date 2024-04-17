@@ -13,6 +13,8 @@ public class LoadingSceneManager : MonoBehaviour
     public TMP_Text LoadingText;
     public Image[] BG;
 
+    public static bool isSceneLoaded = false;
+    
     private void Start()
     {
         StartCoroutine(LoadScene());
@@ -26,21 +28,11 @@ public class LoadingSceneManager : MonoBehaviour
 
     private IEnumerator LoadScene()
     {
+        isSceneLoaded = false;
+        
         yield return null;
         
-        switch (nextScene)
-        {
-            case "02.Town":
-                BG[0].gameObject.SetActive(true);
-                break;
-            case "03.Stage1":
-                BG[1].gameObject.SetActive(true);
-                break;
-            case "04.Stage2":
-                BG[1].gameObject.SetActive(true);
-                break;
-        }
-
+        BGChanger(nextScene);
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
 
@@ -54,12 +46,18 @@ public class LoadingSceneManager : MonoBehaviour
 
             if (op.progress >= 0.9f)
             {
+                if (GameManager.Instance.Player != null)
+                {
+                    GameManager.Instance.Player.transform.position = Vector3.zero;
+                }
+                
                 ProgressBar.fillAmount = Mathf.Lerp(ProgressBar.fillAmount, 1f, timer);
 
                 if (ProgressBar.fillAmount == 1.0f)
                 {
                     op.allowSceneActivation = true;
                     SoundManager.Instance.PlayBGM(nextScene);
+                    isSceneLoaded = true;
                 }
             }
             else
@@ -72,9 +70,7 @@ public class LoadingSceneManager : MonoBehaviour
             }
 
             float Loading = ProgressBar.fillAmount * 100;
-
             LoadingText.text = ("LOADING : " + Loading.ToString("N1") + "%");
-
         }
     }
 
