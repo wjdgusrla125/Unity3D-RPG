@@ -1,7 +1,7 @@
 {
   "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0": {
     "GameObjectId": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0",
-    "CommentText": "필수\n1. 세이브 로드 기능 만들기\n2. 해상도 설정 및 안내 UI 만들기\n\n선택\n1. 디졸브 쉐이더 적용 해보기",
+    "CommentText": "1. 이어하기 새로하기 만들기",
     "AssetGUID": "3fa5013f7b706e746b0bdfe641e4dc19",
     "UniqueItemID": "GlobalObjectId_V1-2-3fa5013f7b706e746b0bdfe641e4dc19-1938724199-0"
   }

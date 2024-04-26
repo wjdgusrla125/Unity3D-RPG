@@ -26,7 +26,7 @@ public class StaticUIManager : Singleton<StaticUIManager> //싱글톤
     public GameObject[] lifeCount;
 
     //private Field
-    private FSMPlayer _player;
+    public FSMPlayer _player;
     private PlayerHealth _playerHealth;
     private PlayerMana _playerMana;
     private PlayerStats _playerStats;
@@ -35,7 +35,6 @@ public class StaticUIManager : Singleton<StaticUIManager> //싱글톤
     private void Awake()
     {
         base.Awake();
-        
         Invoke("Init", 0.01f);
     }
 

@@ -2,19 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PoolManager : MonoBehaviour
 {
     public GameObject monster;
     public Queue<GameObject> M_queue = new Queue<GameObject>();
     public Transform[] SpawnPoint;
+    //float randomAngle = Random.Range(0f, 360f);
     
     private void Start()
     {
         // 초기에 몬스터를 큐에 추가
         for (int i = 0; i < SpawnPoint.Length; i++)
         {
-            GameObject obj = Instantiate(monster, SpawnPoint[i].position, Quaternion.identity, transform);
+            GameObject obj = Instantiate(monster, SpawnPoint[i].position,Quaternion.identity,transform);
+            
             obj.SetActive(false);
             M_queue.Enqueue(obj);
         }
@@ -50,6 +53,8 @@ public class PoolManager : MonoBehaviour
                 }
 
                 obj.transform.position = SpawnPoint[i].position;
+                float randomAngle = Random.Range(0f, 360f);
+                obj.transform.rotation = Quaternion.Euler(0f, randomAngle, 0f);
             }
 
             yield return new WaitForSeconds(1f);

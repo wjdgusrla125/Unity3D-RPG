@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e60ef719377d9547a56620fa466557f, type: 3}
   m_Name: Player ItemSlot
   m_EditorClassIdentifier: 
-  savePath: ItemSlot.Save
+  savePath: ItemSlot.json
   database: {fileID: 11400000, guid: 1807c0119c762bf48b5883c974cc9a5d, type: 2}
   type: 2
   Container:

@@ -75,6 +75,7 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
         }
         
         OpenPopup(_inventoryPopup);
+        OpenPopup(_characterInfoPopup);
     }
     
     //시작 시 모든 팝업 닫기

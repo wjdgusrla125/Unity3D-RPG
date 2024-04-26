@@ -9,8 +9,6 @@ public enum CH_STATE
     DOUBLEATTACK,
     SPINATTACK,
     BLOCK,
-    ATTACK2,
-    ATTACK3,
     MS_IDLE = 20,
     MS_CHASE,
     MS_ATTACK,
@@ -26,8 +24,6 @@ public class CharacterState : MonoBehaviour
     //플레이어
     public float horizontal;
     public float vertical;
-    public float targetAngle;
-    public float angle;
     public float playerSpeed = 5f;
     public float playerRotationSpeed = 600f;
     public float yVelocity;

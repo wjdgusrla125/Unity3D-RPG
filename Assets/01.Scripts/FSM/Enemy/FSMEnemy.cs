@@ -33,7 +33,7 @@ public class FSMEnemy : FSMBase
         EHealth = this.GetComponent<EnemyHealth>();
 
         _navmesh = GetComponent<NavMeshAgent>();
-        _navmesh.speed = State.MS_RunSpeed;
+        _navmesh.speed = characterState.MS_RunSpeed;
 
         for (int i = 0; i < Colliders.Length; ++i)
         {
@@ -89,29 +89,29 @@ public class FSMEnemy : FSMBase
     {
         if (_fsmplayer.CHState == CH_STATE.BLOCK)
         {
-            _fsmplayer.TakeDamage(State.MS_AttackDamage - _stats.Defence.value.ModifiedValue);
+            _fsmplayer.TakeDamage(characterState.MS_AttackDamage - _stats.Defence.value.ModifiedValue);
         }
         
         switch (CHState)
         {
             case CH_STATE.MS_ATTACK:
-                _fsmplayer.TakeDamage(State.MS_AttackDamage);
+                _fsmplayer.TakeDamage(characterState.MS_AttackDamage);
                 break;
             case CH_STATE.MS_COMBOATTACK:
-                _fsmplayer.TakeDamage(State.MS_AttackDamage + 10);
+                _fsmplayer.TakeDamage(characterState.MS_AttackDamage + 10);
                 break;
             case CH_STATE.MS_SPINATTACK:
-                _fsmplayer.TakeDamage(State.MS_AttackDamage + 15);
+                _fsmplayer.TakeDamage(characterState.MS_AttackDamage + 15);
                 break;
             case CH_STATE.MS_HEAVYATTACK:
-                _fsmplayer.TakeDamage(State.MS_AttackDamage + 20);
+                _fsmplayer.TakeDamage(characterState.MS_AttackDamage + 20);
                 break;
         }
     }
 
     protected bool DetectPlayer()
     {
-        return CompareDistanse(transform.position, _player.transform.position, State.MS_ChaseRange);
+        return CompareDistanse(transform.position, _player.transform.position, characterState.MS_ChaseRange);
     }
 
     public bool CompareDistanse(Vector3 a, Vector3 b, float distance)
@@ -150,7 +150,7 @@ public class FSMEnemy : FSMBase
                 break;
             }
 
-        } while (!isNewState);
+        } while (!IsNewState);
     }
 
     protected virtual IEnumerator MS_CHASE()
@@ -162,7 +162,7 @@ public class FSMEnemy : FSMBase
             
             if(IsDead()) break;
             
-            if (CompareDistanse(transform.position, _player.transform.position, State.MS_attackRange)) // 공격 사거리 범위에 들어올 때
+            if (CompareDistanse(transform.position, _player.transform.position, characterState.MS_attackRange)) // 공격 사거리 범위에 들어올 때
             {
                 _navmesh.isStopped = true;
                 SetState(CH_STATE.MS_ATTACK);
@@ -176,7 +176,7 @@ public class FSMEnemy : FSMBase
                 break;
             }
             
-        } while (!isNewState);
+        } while (!IsNewState);
     }
 
     protected virtual IEnumerator MS_ATTACK()
@@ -187,7 +187,7 @@ public class FSMEnemy : FSMBase
             
             if(IsDead()) break;
 
-            if (!CompareDistanse(transform.position, _player.transform.position, State.MS_attackRange)) //공격 사거리 범위 벗어날 때
+            if (!CompareDistanse(transform.position, _player.transform.position, characterState.MS_attackRange)) //공격 사거리 범위 벗어날 때
             {
                 _navmesh.isStopped = false;
                 SetState(CH_STATE.MS_CHASE);
@@ -201,7 +201,7 @@ public class FSMEnemy : FSMBase
                 break;
             }
             
-        } while (!isNewState);
+        } while (!IsNewState);
     }
 
     protected virtual IEnumerator MS_DEAD()
@@ -210,7 +210,7 @@ public class FSMEnemy : FSMBase
         {
             isAlive = true;
             for (int i=0; i<Colliders.Length; ++i) Colliders[i].enabled = false;
-            _charactercontroller.enabled = false;
+            characterController.enabled = false;
             DropItem();
         }
         

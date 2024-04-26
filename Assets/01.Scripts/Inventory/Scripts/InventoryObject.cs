@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
-
 [CreateAssetMenu(fileName = "New Inventory", menuName = "Inventory System/Inventory")]
 public class InventoryObject : ScriptableObject
 {
@@ -100,34 +99,48 @@ public class InventoryObject : ScriptableObject
     }
     
     
-    [ContextMenu("Save")]
     public void Save()
     {
-        IFormatter formatter = new BinaryFormatter();
-        Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
-        formatter.Serialize(stream, Container);
-        stream.Close();
+        string json = JsonUtility.ToJson(Container);
+        string filePath = Application.dataPath + "/Resources/" + savePath;
+        File.WriteAllText(filePath, json);
+        
+        // IFormatter formatter = new BinaryFormatter();
+        // Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Create, FileAccess.Write);
+        // formatter.Serialize(stream, Container);
+        // stream.Close();
     }
     
-    [ContextMenu("Load")]
     public void Load()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, savePath);
-        
+        string filePath = Application.dataPath + "/Resources/" + savePath;
+
         if (File.Exists(filePath))
         {
-            IFormatter formatter = new BinaryFormatter();
-            Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Open, FileAccess.Read);
-            Inventory newContainer = (Inventory)formatter.Deserialize(stream);
+            string json = File.ReadAllText(filePath);
+            Inventory newContainer = JsonUtility.FromJson<Inventory>(json);
+            
             for (int i = 0; i < GetSlots.Length; i++)
             {
                 GetSlots[i].UpdateSlot(newContainer.Slots[i].item, newContainer.Slots[i].amount);
             }
-            stream.Close();
         }
+        
+        // string filePath = Path.Combine(Application.persistentDataPath, savePath);
+        //
+        // if (File.Exists(filePath))
+        // {
+        //     IFormatter formatter = new BinaryFormatter();
+        //     Stream stream = new FileStream(string.Concat(Application.persistentDataPath, savePath), FileMode.Open, FileAccess.Read);
+        //     Inventory newContainer = (Inventory)formatter.Deserialize(stream);
+        //     for (int i = 0; i < GetSlots.Length; i++)
+        //     {
+        //         GetSlots[i].UpdateSlot(newContainer.Slots[i].item, newContainer.Slots[i].amount);
+        //     }
+        //     stream.Close();
+        // }
     }
     
-    [ContextMenu("Clear")]
     public void Clear()
     {
         Container.Clear();

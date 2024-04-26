@@ -32,7 +32,7 @@ public class FSMBoss : FSMEnemy
                 break;
             }
 
-        } while (!isNewState);
+        } while (!IsNewState);
     }
 
     protected override IEnumerator MS_CHASE()
@@ -54,7 +54,7 @@ public class FSMBoss : FSMEnemy
                 break;
             }
             
-            if (CompareDistanse(this.transform.position, _player.transform.position, State.MS_attackRange))
+            if (CompareDistanse(this.transform.position, _player.transform.position, characterState.MS_attackRange))
             {
                 _navmesh.isStopped = true;
                 switch (AttackPattern)
@@ -78,7 +78,7 @@ public class FSMBoss : FSMEnemy
                 }
             }
             
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator MS_COMBOATTACK()
@@ -95,7 +95,7 @@ public class FSMBoss : FSMEnemy
             
             if(IsDead()) break;
 
-            if (!CompareDistanse(this.transform.position, _player.transform.position, State.MS_attackRange)) //공격 사거리 범위 벗어날 때
+            if (!CompareDistanse(this.transform.position, _player.transform.position, characterState.MS_attackRange)) //공격 사거리 범위 벗어날 때
             {
                 _navmesh.isStopped = false;
                 SetState(CH_STATE.MS_CHASE);
@@ -129,7 +129,7 @@ public class FSMBoss : FSMEnemy
                 SetState(CH_STATE.MS_IDLE);
                 break;
             }
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator MS_SPINATTACK()
@@ -147,7 +147,7 @@ public class FSMBoss : FSMEnemy
             
             
 
-            if (!CompareDistanse(this.transform.position, _player.transform.position, State.MS_attackRange)) //공격 사거리 범위 벗어날 때
+            if (!CompareDistanse(this.transform.position, _player.transform.position, characterState.MS_attackRange)) //공격 사거리 범위 벗어날 때
             {
                 _navmesh.isStopped = false;
                 SetState(CH_STATE.MS_CHASE);
@@ -181,7 +181,7 @@ public class FSMBoss : FSMEnemy
                 SetState(CH_STATE.MS_IDLE);
                 break;
             }
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator MS_HEAVYATTACK()
@@ -197,7 +197,7 @@ public class FSMBoss : FSMEnemy
             
             if(IsDead()) break;
 
-            if (!CompareDistanse(this.transform.position, _player.transform.position, State.MS_attackRange)) //공격 사거리 범위 벗어날 때
+            if (!CompareDistanse(this.transform.position, _player.transform.position, characterState.MS_attackRange)) //공격 사거리 범위 벗어날 때
             {
                 _navmesh.isStopped = false;
                 SetState(CH_STATE.MS_CHASE);
@@ -231,7 +231,7 @@ public class FSMBoss : FSMEnemy
                 SetState(CH_STATE.MS_IDLE);
                 break;
             }
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator MS_DEFENCE()
@@ -250,7 +250,7 @@ public class FSMBoss : FSMEnemy
                 SetState(CH_STATE.MS_IDLE);
                 break;
             }
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator MS_DEAD()
@@ -259,7 +259,7 @@ public class FSMBoss : FSMEnemy
         {
             isAlive = true;
             for (int i=0; i<Colliders.Length; ++i) Colliders[i].enabled = false;
-            _charactercontroller.enabled = false;
+            characterController.enabled = false;
             DropItem();
             TownPortal.SetActive(true);
         }

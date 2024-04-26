@@ -3,13 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 
 public class FSMPlayer : FSMBase
 {
     //pubilc Field
     [Header("FSMPlayer")]
-    public FSMEnemy _enemy;
+    public FSMEnemy fsmEnemy;
     public IntVariable gold;
     
     //Private Field
@@ -62,75 +63,51 @@ public class FSMPlayer : FSMBase
             UseItem();
         }
         UpdateSkillCooldowns();
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            ItemIO.ItemDataLoad();
+        }
+        
     }
     
-    
     //일반 메소드
-    // private void playerMovement()
-    //  {
-    //      if (isSkill == false)
-    //      {
-    //          State.horizontal = Input.GetAxis("Horizontal");
-    //          State.vertical = Input.GetAxis("Vertical");
-    //          float gravity = -10f;
-    //          
-    //          Vector3 direction = new Vector3(State.horizontal, 0f, State.vertical).normalized;
-    //          
-    //          if (_charactercontroller.isGrounded == false)
-    //          {
-    //              direction.y += gravity * Time.deltaTime * 2;
-    //          }
-    //
-    //          if (direction.magnitude >= 0.1f)
-    //          {
-    //              direction.Normalize();
-    //              float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-    //              float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
-    //              transform.rotation = Quaternion.Euler(0f, angle, 0f);
-    //
-    //              _charactercontroller.Move(direction.normalized * State.playerSpeed * Time.deltaTime);
-    //          }
-    //      }
-    //  }
-    
     private void playerMovement()
     {
         if (!isSkill)
         {
-            State.horizontal = Input.GetAxis("Horizontal");
-            State.vertical = Input.GetAxis("Vertical");
+            characterState.horizontal = Input.GetAxis("Horizontal");
+            characterState.vertical = Input.GetAxis("Vertical");
             float gravity = -10f;
 
-            Vector3 direction = new Vector3(State.horizontal, 0f, State.vertical).normalized;
+            Vector3 direction = new Vector3(characterState.horizontal, 0f, characterState.vertical).normalized;
 
-            if (_charactercontroller.isGrounded)
+            if (characterController.isGrounded)
             {
-                State.yVelocity = 0f;
+                characterState.yVelocity = 0f;
             }
             else
             {
                 if (LoadingSceneManager.isSceneLoaded)
                 {
-                    State.yVelocity += gravity * Time.deltaTime;
+                    characterState.yVelocity += gravity * Time.deltaTime;
                 }
             }
             
             Vector3 move = direction;
-            move.y = State.yVelocity;
+            move.y = characterState.yVelocity;
             
             if (direction.magnitude >= 0.1f)
             {
                 direction.Normalize();
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref State.playerRotationSpeed, 0.1f);
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref characterState.playerRotationSpeed, 0.1f);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
             
-            _charactercontroller.Move(move.normalized * State.playerSpeed * Time.deltaTime);
+            characterController.Move(move.normalized * characterState.playerSpeed * Time.deltaTime);
         }
     }
-
-
     
     private void playerPointMouse()
     {
@@ -264,7 +241,7 @@ public class FSMPlayer : FSMBase
     
     public void OnAttack()
     {
-        _enemy.TakeDamage();
+        fsmEnemy.TakeDamage();
     }
 
     private void ResetDeath()
@@ -282,12 +259,12 @@ public class FSMPlayer : FSMBase
         {
             isSkill = false;
             yield return null;
-            if (State.horizontal != 0 || State.vertical != 0)
+            if (characterState.horizontal != 0 || characterState.vertical != 0)
             {
                 SetState(CH_STATE.RUN);
             }
             
-        } while (!isNewState);
+        } while (!IsNewState);
     }
 
     protected virtual IEnumerator RUN()
@@ -296,12 +273,12 @@ public class FSMPlayer : FSMBase
         {
             yield return null;
             
-            if (State.horizontal == 0 && State.vertical == 0)
+            if (characterState.horizontal == 0 && characterState.vertical == 0)
             {
                 SetState(CH_STATE.IDLE);
             }
             
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator BASEATTACK()
@@ -314,15 +291,15 @@ public class FSMPlayer : FSMBase
             
             yield return null;
 
-            float currentAnimationTime = _animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            float currentAnimationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1")) 
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack1")) 
             {
                 if (Input.GetMouseButton(0)) 
                 {
                     if (currentAnimationTime >= 0.8f)
                     {
-                        _animator.Play("Attack2");
+                        animator.Play("Attack2");
                         SoundManager.Instance.PlaySFX("BaseAttack",0.3f);
                     }
                 }
@@ -332,13 +309,13 @@ public class FSMPlayer : FSMBase
                 }
             }
 
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2"))
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack2"))
             {
                 if (Input.GetMouseButton(0)) 
                 {
                     if (currentAnimationTime >= 0.8f)
                     {
-                        _animator.Play("Attack3");
+                        animator.Play("Attack3");
                         SoundManager.Instance.PlaySFX("BaseAttack",0.3f);
                     }
                 }
@@ -348,14 +325,14 @@ public class FSMPlayer : FSMBase
                 }
             }
 
-            if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3")
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack3")
                 && currentAnimationTime >= 0.7f)
             {
                 SetState(CH_STATE.IDLE);
             }
 
 
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator DOUBLEATTACK()
@@ -366,15 +343,15 @@ public class FSMPlayer : FSMBase
             isSkill = true;
             yield return null;
             
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f
-                && _animator.GetCurrentAnimatorStateInfo(0).IsName("DOUBLEATTACK"))
+            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f
+                && animator.GetCurrentAnimatorStateInfo(0).IsName("DOUBLEATTACK"))
             {
                 isSkill = false;
                 SetState(CH_STATE.IDLE);
                 _skillCooldowns[1] = 10f;
             }
 
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator SPINATTACK()
@@ -385,15 +362,15 @@ public class FSMPlayer : FSMBase
             isSkill = true;
             yield return null;
             
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f
-                && _animator.GetCurrentAnimatorStateInfo(0).IsName("SPINATTACK"))
+            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.8f
+                && animator.GetCurrentAnimatorStateInfo(0).IsName("SPINATTACK"))
             {
                 isSkill = false;
                 SetState(CH_STATE.IDLE);
                 _skillCooldowns[2] = 15f;
             }
             
-        } while (!isNewState);
+        } while (!IsNewState);
     }
     
     protected virtual IEnumerator BLOCK()
@@ -404,15 +381,15 @@ public class FSMPlayer : FSMBase
             isSkill = true;
             yield return null;
             
-            if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f
-                && _animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
+            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f
+                && animator.GetCurrentAnimatorStateInfo(0).IsName("BLOCK"))
             {
                 isSkill = false;
                 SetState(CH_STATE.IDLE);
                 _skillCooldowns[3] = 8f;
             }
 
-        } while (!isNewState);
+        } while (!IsNewState);
     }
 
     protected virtual IEnumerator DEAD()

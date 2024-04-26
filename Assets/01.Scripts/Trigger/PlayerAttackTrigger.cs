@@ -11,7 +11,7 @@ public class PlayerAttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            _player._enemy = other.GetComponent<FSMEnemy>();
+            _player.fsmEnemy = other.GetComponent<FSMEnemy>();
             _player.OnAttack();
         }
     }

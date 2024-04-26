@@ -126,6 +126,8 @@ public class PlayerStats : MonoBehaviour
     
     private void OnApplicationQuit()
     {
+        ItemIO.ItemDataSave();
+        PlayerIO.SaveData();
         inventory.Clear();
         equipment.Clear();
         ItemSlot.Clear();
