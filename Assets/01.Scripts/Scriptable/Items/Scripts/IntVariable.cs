@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,11 @@ using UnityEngine;
 public class IntVariable : ScriptableObject 
 {
     public int Value;
+
+    private void OnEnable()
+    {
+        Value = 400;
+    }
 
     public void SetValue(int value)
     {

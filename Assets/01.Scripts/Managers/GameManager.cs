@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     private GameObject player;
     private Scene currentScene;
     private static bool playerInstatiated = false;
+    private bool isPaused = false;
 
     private void Awake()
     {
@@ -24,6 +25,25 @@ public class GameManager : Singleton<GameManager>
         player = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
         DontDestroyOnLoad(player);
     }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        isPaused = true;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+        isPaused = false;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    
+    
 
     public  GameObject Player { get { return player; } }
     public Scene Scene { get { return currentScene; } }

@@ -9,6 +9,8 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
     public PopupUI _inventoryPopup;
     public PopupUI _characterInfoPopup;
     public PopupUI _shopPopup;
+    public PopupUI _SettingPopup;
+    public PopupUI _SoundPopup;
     [Space]
     public KeyCode _escapeKey = KeyCode.Escape;
     public KeyCode _inventoryKey = KeyCode.I;
@@ -38,6 +40,10 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
             {
                 ClosePopup(_activePopupLList.First.Value);
             }
+            else
+            {
+                OpenSettingPopup();
+            }
         }
 
         // 단축키 조작
@@ -56,7 +62,7 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
         // 1. 리스트 초기화
         _allPopupList = new List<PopupUI>()
         {
-            _inventoryPopup, _characterInfoPopup, _shopPopup
+            _inventoryPopup, _characterInfoPopup, _shopPopup, _SettingPopup, _SoundPopup
         };
 
         // 2. 모든 팝업에 이벤트 등록
@@ -104,7 +110,7 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
     }
     
     //팝업을 열고 LinkedList 상단의 추가
-    private void OpenPopup(PopupUI popup)
+    public void OpenPopup(PopupUI popup)
     {
         _activePopupLList.AddFirst(popup);
         popup.gameObject.SetActive(true);
@@ -117,6 +123,7 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
         _activePopupLList.Remove(popup);
         popup.gameObject.SetActive(false);
         RefreshAllPopupDepth();
+        GameManager.Instance.ResumeGame();
     }
     
     //LinkedList내 모든 팝업의 자식 순서 재배치
@@ -126,5 +133,25 @@ public class PopupUIManager : Singleton<PopupUIManager> //싱글톤
         {
             popup.transform.SetAsFirstSibling();
         }
+    }
+    
+    
+    private void OpenSettingPopup()
+    {
+        if (_SettingPopup != null)
+        {
+            GameManager.Instance.PauseGame();
+            _SettingPopup.gameObject.SetActive(true);
+            _activePopupLList.AddFirst(_SettingPopup);
+            RefreshAllPopupDepth();
+        }
+    }
+
+    public void CloseSettingPopup()
+    {
+        GameManager.Instance.ResumeGame();
+        _activePopupLList.Remove(_SettingPopup);
+        _SettingPopup.gameObject.SetActive(false);
+        RefreshAllPopupDepth();
     }
 }

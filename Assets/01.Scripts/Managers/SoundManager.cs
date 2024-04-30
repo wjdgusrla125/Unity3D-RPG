@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SoundManager : Singleton<SoundManager>
 {
@@ -10,12 +12,23 @@ public class SoundManager : Singleton<SoundManager>
 
     public int MaxAudioSource = 5;
 
+    public Slider BGMSlider;
+    public Slider SFXSlider;
+
     private AudioSource BGSource;
     private AudioSource[] SFXSource;
     
     public override void Awake()
     {
         base.Awake();
+    }
+
+    private void Update()
+    {
+        if (BGMSlider.value != BGSource.volume)
+        {
+            OnVolumeChanged();
+        }
     }
 
     private void OnEnable()
@@ -26,6 +39,8 @@ public class SoundManager : Singleton<SoundManager>
         BGSource.playOnAwake = false;
         BGSource.loop = true;
 
+        BGMSlider.value = BGSource.volume;
+
         SFXSource = new AudioSource[MaxAudioSource];
 
         for (int i = 0; i < SFXSource.Length; i++)
@@ -34,12 +49,13 @@ public class SoundManager : Singleton<SoundManager>
             SFXSource[i].volume = 1;
             SFXSource[i].playOnAwake = false;
             SFXSource[i].loop = false;
+            SFXSlider.value = SFXSource[i].volume;
         }
         
         PlayBGM(BGMClip[0].name);
     }
 
-    public void PlayBGM(string name, bool isLoop = true, float volume = 0.5f)
+    public void PlayBGM(string name, bool isLoop = true)
     {
         for (int i = 0; i < BGMClip.Count; ++i)
         {
@@ -48,7 +64,7 @@ public class SoundManager : Singleton<SoundManager>
                 AudioSource Source = BGSource;
                 Source.clip = BGMClip[i];
                 Source.loop = isLoop;
-                Source.volume = volume;
+                Source.volume = BGMSlider.value;
                 Source.Play();
 
                 return;
@@ -79,7 +95,7 @@ public class SoundManager : Singleton<SoundManager>
                 AudioSource Source = GetEmptyAudioSource();
                 Source.clip = SFXClip[i];
                 Source.loop = isLoop;
-                Source.volume = volume;
+                Source.volume = SFXSlider.value;
                 Source.Play();
                 StartCoroutine(WaitForSoundEnd(Source));
 
@@ -106,8 +122,6 @@ public class SoundManager : Singleton<SoundManager>
     {
         float clipLength = source.clip.length;
         yield return new WaitForSeconds(clipLength * 0.8f);
-
-        // Once 80% of the clip has played, allow the sound to be played again
         source.Stop();
     }
     
@@ -148,5 +162,15 @@ public class SoundManager : Singleton<SoundManager>
         }
 
         return SFXSource[LargeIndex];
+    }
+    
+    public void OnVolumeChanged()
+    {
+        BGSource.volume = BGMSlider.value;
+
+        for (int i = 0; i < SFXSource.Length; i++)
+        {
+            SFXSource[i].volume = SFXSlider.value;
+        }
     }
 }
